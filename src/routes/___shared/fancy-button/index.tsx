@@ -7,9 +7,10 @@ interface ButtonProps extends BaseButtonProps {
 }
 
 export default function FancyButton({ className, ...props }: ButtonProps) {
-  const combinedClassName = props.color === 'primary'
-    ? `antd-primary-btn ${className ?? ''}`
-    : className ?? '';
+  const combinedClassName =
+    props.color === 'primary'
+      ? `antd-primary-btn ${className ?? ''}`
+      : (className ?? '');
 
   return (
     <Button {...props} className={`${combinedClassName} text-primary-text!`}>

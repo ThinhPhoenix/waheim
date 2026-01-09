@@ -1,6 +1,5 @@
 /* AUTO-GENERATED — DO NOT EDIT */
 
-const Assets = {
-};
+const Assets = {};
 
 export default Assets;

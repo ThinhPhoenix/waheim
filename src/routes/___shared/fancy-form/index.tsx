@@ -12,7 +12,8 @@ import {
   TimePicker,
 } from 'antd';
 import type { Rule } from 'antd/es/form';
-import React, { useEffect, useRef } from 'react';
+import type React from 'react';
+import { useEffect, useRef } from 'react';
 
 export interface FieldForm {
   type:
@@ -40,6 +41,7 @@ export interface FieldForm {
   label?: string;
   placeHolder?: string | string[];
   leftComponent?: React.ReactNode;
+  rightComponent?: React.ReactNode;
   rules?: Rule[];
   hidden?: boolean;
   key: string;
@@ -48,7 +50,6 @@ export interface FieldForm {
   onSubmit?: (values?: any) => void;
   text?: string;
   regex?: string;
-  minLength?: number;
   options?: { label: string | React.ReactNode; value: any }[];
   component?: React.ComponentType<any>;
 }
@@ -123,12 +124,6 @@ export default function FancyForm({
     if (field.rules) {
       rules.push(...field.rules);
     }
-    if (field.minLength) {
-      rules.push({
-        min: field.minLength,
-        message: `Minimum length is ${field.minLength} characters`,
-      });
-    }
     if (field.regex) {
       rules.push({
         pattern: new RegExp(field.regex),
@@ -138,6 +133,7 @@ export default function FancyForm({
 
     const commonProps = {
       placeholder: field.placeHolder,
+      suffix: field.rightComponent,
       ...field.props,
       ...(inputIndex >= 0
         ? {

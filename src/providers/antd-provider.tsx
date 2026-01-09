@@ -1,5 +1,5 @@
-import { colors } from '@/helpers/constants/colors';
 import { ConfigProvider, theme } from 'antd';
+import { colors } from '@/helpers/constants/colors';
 
 export default function AntdProvider({
   children,

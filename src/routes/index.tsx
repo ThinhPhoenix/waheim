@@ -3,6 +3,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { Col, Row } from 'antd';
 import FancyButton from './___shared/fancy-button';
 import FancyForm, { type FieldForm } from './___shared/fancy-form';
+import FancyFormMobile from './___shared/fancy-form-mobile';
 
 export const Route = createFileRoute('/')({
   component: RouteComponent,
@@ -11,42 +12,10 @@ export const Route = createFileRoute('/')({
 function RouteComponent() {
   const fields: FieldForm[] = [
     {
-      type: 'text',
-      label: 'Username',
+      type: 'date',
+      label: 'Date',
       placeHolder: 'Enter your username',
-      rules: [{ required: true, message: 'Username is required' }],
-      key: 'username',
-    },
-    {
-      type: 'password',
-      label: 'Password',
-      placeHolder: 'Enter your password',
-      rules: [{ required: true, message: 'Password is required' }],
-      key: 'password',
-    },
-    {
-      key: 'phone',
-      type: 'tel',
-      label: 'Phone Number',
-      placeHolder: 'Enter your phone number',
-      options: [
-        { label: '+1 US', value: '+1' },
-        { label: '+84 VN', value: '+84' },
-        { label: '+44 UK', value: '+44' },
-        { label: '+86 CN', value: '+86' },
-      ],
-    },
-    {
-      key: 'age',
-      type: 'number',
-      label: 'Age',
-      placeHolder: 'Enter your age',
-    },
-    {
-      key: 'description',
-      type: 'areatext',
-      label: 'Description',
-      placeHolder: 'Enter your description',
+      key: 'date',
     },
   ];
 
@@ -60,7 +29,7 @@ function RouteComponent() {
         <FancyButton type="text">{i18n.t('common:loadTodos')}</FancyButton>
       </Row>
       <Col>
-        <FancyForm
+        <FancyFormMobile
           render={fields}
           className="px-96!"
           initState={{ username: 'John Doe', age: 25 }}
