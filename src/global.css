@@ -1,0 +1,19 @@
+@import 'tailwindcss';
+
+#root {
+  background-color: var(--color-primary-foreground);
+}
+
+html {
+  background-color: var(--color-primary-foreground);
+}
+
+@theme {
+  --color-primary: #e97b56;
+  --color-primary-foreground: #262624;
+  --color-primary-text: whitesmoke;
+}
+
+.todo {
+  @apply bg-blue-100 p-2 rounded-md border border-blue-300 mt-4 text-blue-800;
+}
