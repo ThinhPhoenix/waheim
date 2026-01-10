@@ -11,7 +11,12 @@ function RouteComponent() {
     <Col>
       <div className="flex items-center gap-2">
         <h2>{i18n.t('feed:title')}</h2>
-        <h3 className="text-[#969696]">10 tháng 1</h3>
+        <h3 className="text-[#969696]">
+          {new Date().toLocaleDateString(i18n.language, {
+            day: '2-digit',
+            month: 'long',
+          })}
+        </h3>
       </div>
     </Col>
   );

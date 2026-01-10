@@ -1,0 +1,102 @@
+.inner-html {
+  all: revert;
+  max-width: 100%;
+  overflow-x: auto;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.inner-html * {
+  all: revert;
+  max-width: 100%;
+}
+
+.inner-html img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.inner-html {
+  font-family: serif;
+  font-size: 16px;
+  line-height: 1.15;
+}
+
+.inner-html h1 {
+  font-size: 2em;
+  font-weight: bold;
+  margin: 0.67em 0;
+}
+
+.inner-html h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 0.83em 0;
+}
+
+.inner-html h3 {
+  font-size: 1.17em;
+  font-weight: bold;
+  margin: 1em 0;
+}
+
+.inner-html p {
+  margin: 1em 0;
+}
+
+.inner-html ul,
+.inner-html ol {
+  margin: 1em 0;
+  padding-left: 40px;
+}
+
+.inner-html ul {
+  list-style-type: disc;
+}
+
+.inner-html ol {
+  list-style-type: decimal;
+}
+
+.inner-html a {
+  color: #0000ee;
+  text-decoration: underline;
+}
+
+.inner-html a:visited {
+  color: #551a8b;
+}
+
+.inner-html strong,
+.inner-html b {
+  font-weight: bold;
+}
+
+.inner-html em,
+.inner-html i {
+  font-style: italic;
+}
+
+.inner-html table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin: 1em 0;
+}
+
+.inner-html table,
+.inner-html th,
+.inner-html td {
+  border: 1px solid #000;
+}
+
+.inner-html th,
+.inner-html td {
+  padding: 4px 8px;
+  text-align: left;
+}
+
+.inner-html th {
+  font-weight: bold;
+  background-color: #f0f0f0;
+}

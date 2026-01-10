@@ -1,3 +1,5 @@
+import { sign } from "node:crypto";
+
 export default {
   currency: 'VND',
   loadTodos: 'Tải danh sách công việc',
@@ -9,4 +11,8 @@ export default {
     profile: 'Hồ sơ',
     favorites: 'Yêu thích',
   },
+  button: {
+    signIn: 'Đăng nhập',
+    signOut: 'Đăng xuất',
+  }
 };

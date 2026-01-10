@@ -9,4 +9,8 @@ export default {
     profile: 'Profile',
     favorites: 'Favorites',
   },
+  button: {
+    signIn: 'Sign In',
+    signOut: 'Sign Out',
+  },
 };

@@ -11,11 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as tabsRouteRouteImport } from './routes/(tabs)/route'
 import { Route as authRouteRouteImport } from './routes/(auth)/route'
+import { Route as AboutIndexRouteImport } from './routes/about/index'
 import { Route as tabsIndexRouteImport } from './routes/(tabs)/index'
 import { Route as tabsSearchIndexRouteImport } from './routes/(tabs)/search/index'
 import { Route as tabsProfileIndexRouteImport } from './routes/(tabs)/profile/index'
 import { Route as tabsFavoritesIndexRouteImport } from './routes/(tabs)/favorites/index'
-import { Route as tabsAboutIndexRouteImport } from './routes/(tabs)/about/index'
 import { Route as authSignInIndexRouteImport } from './routes/(auth)/sign-in/index'
 
 const tabsRouteRoute = tabsRouteRouteImport.update({
@@ -24,6 +24,11 @@ const tabsRouteRoute = tabsRouteRouteImport.update({
 } as any)
 const authRouteRoute = authRouteRouteImport.update({
   id: '/(auth)',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutIndexRoute = AboutIndexRouteImport.update({
+  id: '/about/',
+  path: '/about/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const tabsIndexRoute = tabsIndexRouteImport.update({
@@ -46,11 +51,6 @@ const tabsFavoritesIndexRoute = tabsFavoritesIndexRouteImport.update({
   path: '/favorites/',
   getParentRoute: () => tabsRouteRoute,
 } as any)
-const tabsAboutIndexRoute = tabsAboutIndexRouteImport.update({
-  id: '/about/',
-  path: '/about/',
-  getParentRoute: () => tabsRouteRoute,
-} as any)
 const authSignInIndexRoute = authSignInIndexRouteImport.update({
   id: '/sign-in/',
   path: '/sign-in/',
@@ -59,16 +59,16 @@ const authSignInIndexRoute = authSignInIndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof tabsIndexRoute
+  '/about': typeof AboutIndexRoute
   '/sign-in': typeof authSignInIndexRoute
-  '/about': typeof tabsAboutIndexRoute
   '/favorites': typeof tabsFavoritesIndexRoute
   '/profile': typeof tabsProfileIndexRoute
   '/search': typeof tabsSearchIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof tabsIndexRoute
+  '/about': typeof AboutIndexRoute
   '/sign-in': typeof authSignInIndexRoute
-  '/about': typeof tabsAboutIndexRoute
   '/favorites': typeof tabsFavoritesIndexRoute
   '/profile': typeof tabsProfileIndexRoute
   '/search': typeof tabsSearchIndexRoute
@@ -78,24 +78,24 @@ export interface FileRoutesById {
   '/(auth)': typeof authRouteRouteWithChildren
   '/(tabs)': typeof tabsRouteRouteWithChildren
   '/(tabs)/': typeof tabsIndexRoute
+  '/about/': typeof AboutIndexRoute
   '/(auth)/sign-in/': typeof authSignInIndexRoute
-  '/(tabs)/about/': typeof tabsAboutIndexRoute
   '/(tabs)/favorites/': typeof tabsFavoritesIndexRoute
   '/(tabs)/profile/': typeof tabsProfileIndexRoute
   '/(tabs)/search/': typeof tabsSearchIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/sign-in' | '/about' | '/favorites' | '/profile' | '/search'
+  fullPaths: '/' | '/about' | '/sign-in' | '/favorites' | '/profile' | '/search'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/sign-in' | '/about' | '/favorites' | '/profile' | '/search'
+  to: '/' | '/about' | '/sign-in' | '/favorites' | '/profile' | '/search'
   id:
     | '__root__'
     | '/(auth)'
     | '/(tabs)'
     | '/(tabs)/'
+    | '/about/'
     | '/(auth)/sign-in/'
-    | '/(tabs)/about/'
     | '/(tabs)/favorites/'
     | '/(tabs)/profile/'
     | '/(tabs)/search/'
@@ -104,6 +104,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   authRouteRoute: typeof authRouteRouteWithChildren
   tabsRouteRoute: typeof tabsRouteRouteWithChildren
+  AboutIndexRoute: typeof AboutIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -120,6 +121,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: ''
       preLoaderRoute: typeof authRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about/': {
+      id: '/about/'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(tabs)/': {
@@ -150,13 +158,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof tabsFavoritesIndexRouteImport
       parentRoute: typeof tabsRouteRoute
     }
-    '/(tabs)/about/': {
-      id: '/(tabs)/about/'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof tabsAboutIndexRouteImport
-      parentRoute: typeof tabsRouteRoute
-    }
     '/(auth)/sign-in/': {
       id: '/(auth)/sign-in/'
       path: '/sign-in'
@@ -181,7 +182,6 @@ const authRouteRouteWithChildren = authRouteRoute._addFileChildren(
 
 interface tabsRouteRouteChildren {
   tabsIndexRoute: typeof tabsIndexRoute
-  tabsAboutIndexRoute: typeof tabsAboutIndexRoute
   tabsFavoritesIndexRoute: typeof tabsFavoritesIndexRoute
   tabsProfileIndexRoute: typeof tabsProfileIndexRoute
   tabsSearchIndexRoute: typeof tabsSearchIndexRoute
@@ -189,7 +189,6 @@ interface tabsRouteRouteChildren {
 
 const tabsRouteRouteChildren: tabsRouteRouteChildren = {
   tabsIndexRoute: tabsIndexRoute,
-  tabsAboutIndexRoute: tabsAboutIndexRoute,
   tabsFavoritesIndexRoute: tabsFavoritesIndexRoute,
   tabsProfileIndexRoute: tabsProfileIndexRoute,
   tabsSearchIndexRoute: tabsSearchIndexRoute,
@@ -202,6 +201,7 @@ const tabsRouteRouteWithChildren = tabsRouteRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   authRouteRoute: authRouteRouteWithChildren,
   tabsRouteRoute: tabsRouteRouteWithChildren,
+  AboutIndexRoute: AboutIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
