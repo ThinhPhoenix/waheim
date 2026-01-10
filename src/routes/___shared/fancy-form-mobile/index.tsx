@@ -1,3 +1,10 @@
+import { colors } from '@/helpers/constants/colors';
+import {
+  CalendarOutlined,
+  CheckOutlined,
+  ClockCircleOutlined,
+  DownOutlined,
+} from '@ant-design/icons';
 import {
   Button,
   Checkbox,
@@ -8,7 +15,6 @@ import {
   InputNumber,
   List,
   Radio,
-  Select,
   Switch,
   TimePicker,
 } from 'antd';
@@ -62,12 +68,30 @@ const DateWheelPicker: React.FC<DateWheelPickerProps> = ({
   const handleYearChange = (year: number) => {
     const newDate = new Date(currentDate);
     newDate.setFullYear(year);
+    // Adjust day if it's invalid for the new year/month
+    const daysInNewMonth = new Date(
+      newDate.getFullYear(),
+      newDate.getMonth() + 1,
+      0,
+    ).getDate();
+    if (newDate.getDate() > daysInNewMonth) {
+      newDate.setDate(daysInNewMonth);
+    }
     onChange?.(newDate);
   };
 
   const handleMonthChange = (month: number) => {
     const newDate = new Date(currentDate);
     newDate.setMonth(month);
+    // Adjust day if it's invalid for the new month
+    const daysInNewMonth = new Date(
+      newDate.getFullYear(),
+      newDate.getMonth() + 1,
+      0,
+    ).getDate();
+    if (newDate.getDate() > daysInNewMonth) {
+      newDate.setDate(daysInNewMonth);
+    }
     onChange?.(newDate);
   };
 
@@ -84,19 +108,16 @@ const DateWheelPicker: React.FC<DateWheelPickerProps> = ({
           options={years}
           value={currentDate.getFullYear()}
           onValueChange={handleYearChange}
-          visibleCount={5}
         />
         <WheelPicker
           options={months}
           value={currentDate.getMonth()}
           onValueChange={handleMonthChange}
-          visibleCount={5}
         />
         <WheelPicker
           options={days}
           value={currentDate.getDate()}
           onValueChange={handleDayChange}
-          visibleCount={5}
         />
       </WheelPickerWrapper>
     </div>
@@ -153,13 +174,11 @@ const TimeWheelPicker: React.FC<TimeWheelPickerProps> = ({
           options={hours}
           value={currentTime.getHours()}
           onValueChange={handleHourChange}
-          visibleCount={5}
         />
         <WheelPicker
           options={minutes}
           value={currentTime.getMinutes()}
           onValueChange={handleMinuteChange}
-          visibleCount={5}
         />
       </WheelPickerWrapper>
     </div>
@@ -231,6 +250,8 @@ export default function FancyFormMobile({
   const [drawerFieldKey, setDrawerFieldKey] = useState<string>('');
   const [drawerMultiple, setDrawerMultiple] = useState(false);
   const [selectedValues, setSelectedValues] = useState<any[]>([]);
+  const [drawerSearch, setDrawerSearch] = useState('');
+  const [drawerHasSearch, setDrawerHasSearch] = useState(false);
 
   const [datePickerVisible, setDatePickerVisible] = useState(false);
   const [timePickerVisible, setTimePickerVisible] = useState(false);
@@ -259,6 +280,14 @@ export default function FancyFormMobile({
     setDrawerOptions(field.options || []);
     setDrawerFieldKey(field.key);
     setDrawerMultiple(['multiselect', 'multicomboselect'].includes(field.type));
+    // whether this drawer should show a search box (useful for combo/comboselect)
+    setDrawerHasSearch(
+      ['combo', 'comboselect', 'multicomboselect', 'multiselect'].includes(
+        field.type,
+      ),
+    );
+    setDrawerSearch('');
+
     const currentValue = form.getFieldValue(field.key);
     setSelectedValues(
       Array.isArray(currentValue)
@@ -300,13 +329,15 @@ export default function FancyFormMobile({
   };
 
   const handleDateChange = (date: Date) => {
+    // Update the form value live, but don't close the picker here.
+    // The Drawer should only be closed when the user confirms with the "Done" button.
     form.setFieldsValue({ [currentPickerField]: date });
-    setDatePickerVisible(false);
   };
 
   const handleTimeChange = (time: Date) => {
+    // Update the form value live, but don't close the picker here.
+    // The Drawer should only be closed when the user confirms with the "Done" button.
     form.setFieldsValue({ [currentPickerField]: time });
-    setTimePickerVisible(false);
   };
 
   const renderField = (field: FieldForm, index: number) => {
@@ -347,9 +378,24 @@ export default function FancyFormMobile({
       });
     }
 
+    const defaultSuffix =
+      field.type === 'date' ? (
+        <CalendarOutlined style={{ color: '#5b5b52' }} />
+      ) : field.type === 'time' ? (
+        <ClockCircleOutlined style={{ color: '#5b5b52' }} />
+      ) : [
+          'select',
+          'multiselect',
+          'combo',
+          'comboselect',
+          'multicomboselect',
+        ].includes(field.type) ? (
+        <DownOutlined style={{ color: '#5b5b52', width: '12px' }} />
+      ) : undefined;
+
     const commonProps = {
       placeholder: field.placeHolder,
-      suffix: field.rightComponent,
+      suffix: field.rightComponent ?? defaultSuffix,
       ...field.props,
       ...(inputIndex >= 0
         ? {
@@ -384,15 +430,27 @@ export default function FancyFormMobile({
         if (field.options && field.options.length > 0) {
           inputComponent = (
             <div style={{ display: 'flex' }}>
-              <Select
+              <Input
                 {...field.props}
-                options={field.options}
+                readOnly
+                suffix={
+                  <DownOutlined style={{ color: '#5b5b52', width: '12px' }} />
+                }
+                onClick={() =>
+                  openDrawer({ ...field, key: `${field.key}_code` })
+                }
+                value={
+                  field.options?.find(
+                    (opt) =>
+                      opt.value === form.getFieldValue(`${field.key}_code`),
+                  )?.label || ''
+                }
+                placeholder="Code"
                 style={{
                   width: '30%',
                   borderTopRightRadius: 0,
                   borderBottomRightRadius: 0,
                 }}
-                placeholder="Code"
               />
               <Input
                 {...commonProps}
@@ -598,9 +656,7 @@ export default function FancyFormMobile({
             ? field.label
             : undefined
         }
-        name={
-          field.label?.toLowerCase().replace(/\s+/g, '_') || `field_${index}`
-        }
+        name={field.key}
         rules={rules}
         valuePropName={field.type === 'switch' ? 'checked' : 'value'}
       >
@@ -622,7 +678,9 @@ export default function FancyFormMobile({
         {renderFields.map((field, index) => renderField(field, index))}
       </Form>
       <Drawer
-        title="Select Options"
+        title={
+          drawerFieldKey.endsWith('_code') ? 'Select Code' : 'Select Options'
+        }
         placement="bottom"
         onClose={() => setDrawerVisible(false)}
         open={drawerVisible}
@@ -633,29 +691,72 @@ export default function FancyFormMobile({
           ) : null
         }
       >
+        {drawerHasSearch && (
+          <Input
+            placeholder="Search..."
+            value={drawerSearch}
+            onChange={(e) => setDrawerSearch(e.target.value)}
+            style={{ marginBottom: 12 }}
+            autoFocus
+            allowClear
+          />
+        )}
         <List
-          dataSource={drawerOptions}
+          dataSource={drawerOptions.filter((item) =>
+            drawerSearch
+              ? typeof item.label === 'string'
+                ? item.label.toLowerCase().includes(drawerSearch.toLowerCase())
+                : String(item.label)
+                    .toLowerCase()
+                    .includes(drawerSearch.toLowerCase())
+              : true,
+          )}
           renderItem={(item) => (
-            <List.Item
+            <div
               onClick={() => handleDrawerSelect(item.value)}
               style={{
                 cursor: 'pointer',
                 backgroundColor: selectedValues.includes(item.value)
-                  ? '#f0f0f0'
+                  ? colors.primaryForeground + '20'
                   : 'transparent',
+                color: selectedValues.includes(item.value)
+                  ? 'white'
+                  : undefined,
+                padding: '12px 16px',
+                borderRadius: 8,
+                fontWeight: selectedValues.includes(item.value) ? '600' : '400',
+                border: `1px solid ${selectedValues.includes(item.value) ? `${colors.primary}` : `transparent`}`,
+                marginBottom: 8,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
               }}
             >
               {item.label}
-            </List.Item>
+              {selectedValues.includes(item.value) && (
+                <CheckOutlined style={{ color: colors.primary }} />
+              )}
+            </div>
           )}
         />
+        {drawerHasSearch &&
+          drawerOptions.filter((item) =>
+            drawerSearch
+              ? typeof item.label === 'string'
+                ? item.label.toLowerCase().includes(drawerSearch.toLowerCase())
+                : String(item.label)
+                    .toLowerCase()
+                    .includes(drawerSearch.toLowerCase())
+              : true,
+          ).length === 0 && (
+            <div style={{ padding: 12, color: '#888' }}>No results</div>
+          )}
       </Drawer>
       <Drawer
         title="Select Date"
         placement="bottom"
         onClose={() => setDatePickerVisible(false)}
         open={datePickerVisible}
-        height="50%"
         extra={
           <Button onClick={() => setDatePickerVisible(false)}>Done</Button>
         }

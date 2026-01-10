@@ -46,6 +46,14 @@
   transform: translateY(-50%);
   font-size: 1rem;
   font-weight: 500;
+  /* Ensure highlight layer sits above wheel items to avoid overlap artifacts */
+  z-index: 2;
+  pointer-events: none;
+}
+
+[data-rwp-options] {
+  /* Ensure options sit below the highlight layer */
+  z-index: 1;
 }
 
 /* [data-rwp-highlight-wrapper][data-rwp-focused] {

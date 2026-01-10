@@ -252,8 +252,17 @@ function WheelPicker<T extends WheelPickerValue>({
 
       wheelItemsRef.current.childNodes.forEach((node) => {
         const li = node as HTMLLIElement;
-        const distance = Math.abs(Number(li.dataset.index) - normalizedScroll);
-        li.style.visibility = distance > quarterCount ? 'hidden' : 'visible';
+        const indexNum = Number(li.dataset.index);
+        const distance = Math.abs(indexNum - normalizedScroll);
+
+        // Hide any wheel item that is at or very near the center (distance <= 0.5)
+        // while the highlight layer shows the selected label. This prevents
+        // overlapping labels during fractional scroll positions.
+        if (Number.isFinite(indexNum) && distance <= 0.5) {
+          li.style.visibility = 'hidden';
+        } else {
+          li.style.visibility = distance > quarterCount ? 'hidden' : 'visible';
+        }
       });
     }
 
@@ -821,10 +830,10 @@ function WheelPicker<T extends WheelPickerValue>({
 
 export {
   WheelPicker,
+  WheelPickerWrapper,
   type WheelPickerOption,
   type WheelPickerProps,
   type WheelPickerValue,
-  WheelPickerWrapper,
 };
 
 export type { WheelPickerClassNames } from './types';

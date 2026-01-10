@@ -1,4 +1,5 @@
 import i18n from '@/helpers/i18n';
+import { UserOutlined } from '@ant-design/icons';
 import { createFileRoute } from '@tanstack/react-router';
 import { Col, Row } from 'antd';
 import FancyButton from './___shared/fancy-button';
@@ -17,6 +18,86 @@ function RouteComponent() {
       placeHolder: 'Enter your username',
       key: 'date',
     },
+    {
+      type: 'text',
+      label: 'Username',
+      placeHolder: 'Enter your username',
+      key: 'username',
+      leftComponent: <UserOutlined />,
+    },
+    {
+      type: 'number',
+      label: 'Age',
+      placeHolder: 'Enter your age',
+      key: 'age',
+    },
+    {
+      key: 'tel',
+      type: 'tel',
+      label: 'Phone Number',
+      placeHolder: 'Enter your phone number',
+      options: [
+        { label: 'US (+1)', value: '+1' },
+        { label: 'UK (+44)', value: '+44' },
+        { label: 'VN (+84)', value: '+84' },
+        { label: 'US (+1)', value: '+1' },
+        { label: 'UK (+44)', value: '+44' },
+        { label: 'VN (+84)', value: '+84' },
+        { label: 'US (+1)', value: '+1' },
+        { label: 'UK (+44)', value: '+44' },
+        { label: 'VN (+84)', value: '+84' },
+        { label: 'US (+1)', value: '+1' },
+        { label: 'UK (+44)', value: '+44' },
+        { label: 'VN (+84)', value: '+84' },
+        { label: 'US (+1)', value: '+1' },
+        { label: 'UK (+44)', value: '+44' },
+        { label: 'VN (+84)', value: '+84' },
+        { label: 'US (+1)', value: '+1' },
+        { label: 'UK (+44)', value: '+44' },
+        { label: 'VN (+84)', value: '+84' },
+        { label: 'US (+1)', value: '+1' },
+        { label: 'UK (+44)', value: '+44' },
+        { label: 'VN (+84)', value: '+84' },
+        { label: 'US (+1)', value: '+1' },
+        { label: 'UK (+44)', value: '+44' },
+        { label: 'VN (+84)', value: '+84' },
+        { label: 'US (+1)', value: '+1' },
+        { label: 'UK (+44)', value: '+44' },
+        { label: 'VN (+84)', value: '+84' },
+        { label: 'US (+1)', value: '+1' },
+        { label: 'UK (+44)', value: '+44' },
+        { label: 'VN (+84)', value: '+84' },
+        { label: 'US (+1)', value: '+1' },
+        { label: 'UK (+44)', value: '+44' },
+        { label: 'VN (+84)', value: '+84' },
+      ],
+    },
+    {
+      type: 'select',
+      label: 'Favorite Fruit',
+      placeHolder: 'Select your favorite fruit',
+      key: 'favoriteFruit',
+      options: [
+        { label: 'Apple', value: 'apple' },
+        { label: 'Banana', value: 'banana' },
+        { label: 'Orange', value: 'orange' },
+        { label: 'Mango', value: 'mango' },
+        { label: 'Pineapple', value: 'pineapple' },
+      ],
+    },
+    {
+      type: 'comboselect',
+      label: 'Country',
+      placeHolder: 'Select your country',
+      key: 'country',
+      options: [
+        { label: 'United States', value: 'us' },
+        { label: 'United Kingdom', value: 'uk' },
+        { label: 'Vietnam', value: 'vn' },
+        { label: 'Canada', value: 'ca' },
+        { label: 'Australia', value: 'au' },
+      ],
+    },
   ];
 
   return (
@@ -31,7 +112,12 @@ function RouteComponent() {
       <Col>
         <FancyFormMobile
           render={fields}
-          className="px-96!"
+          className="p-8!"
+          initState={{ username: 'John Doe', age: 25 }}
+        />
+        <FancyForm
+          render={fields}
+          className="p-8!"
           initState={{ username: 'John Doe', age: 25 }}
         />
       </Col>
