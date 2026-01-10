@@ -7,6 +7,7 @@ import {
   SignatureOutlined,
   UserOutlined,
 } from '@ant-design/icons';
+import { useNavigate } from '@tanstack/react-router';
 
 interface MenuItemProps {
   icon: React.ReactNode;
@@ -32,11 +33,28 @@ const MenuItem = ({ icon, label, onClick }: MenuItemProps) => (
 );
 
 export default function ProfileMenu() {
+  const navigate = useNavigate();
   const menuItems = [
-    { icon: <UserOutlined />, label: i18n.t('profile:editProfile') },
-    { icon: <SettingOutlined />, label: i18n.t('profile:generalSettings') },
-    { icon: <MobileOutlined />, label: i18n.t('profile:about') },
-    { icon: <SignatureOutlined />, label: i18n.t('profile:terms') },
+    {
+      icon: <UserOutlined />,
+      label: i18n.t('profile:editProfile'),
+      action: () => {},
+    },
+    {
+      icon: <SettingOutlined />,
+      label: i18n.t('profile:generalSettings'),
+      action: () => {},
+    },
+    {
+      icon: <MobileOutlined />,
+      label: i18n.t('profile:about'),
+      action: () => navigate({ to: '/about' }),
+    },
+    {
+      icon: <SignatureOutlined />,
+      label: i18n.t('profile:terms'),
+      action: () => {},
+    },
     {
       icon: (
         <svg
@@ -87,15 +105,20 @@ export default function ProfileMenu() {
         </svg>
       ),
       label: i18n.t('profile:support'),
+      action: () => {},
     },
-    { icon: <ShareAltOutlined />, label: i18n.t('profile:share') },
+    {
+      icon: <ShareAltOutlined />,
+      label: i18n.t('profile:share'),
+      action: () => {},
+    },
   ];
 
   return (
     <div className="bg-linear-to-br from-[#252423] to-[#1a1918] rounded-xl shadow-lg my-4 overflow-hidden border border-[#2a2a2a]">
       <div className="p-2">
         {menuItems.map((item, index) => (
-          <MenuItem key={index} {...item} />
+          <MenuItem key={index} {...item} onClick={item.action} />
         ))}
       </div>
     </div>
