@@ -1,6 +1,5 @@
 import { createRootRoute, Outlet } from '@tanstack/react-router';
 import * as React from 'react';
-import NavMenu from './___shared/nav-menu';
 
 export const Route = createRootRoute({
   component: RootComponent,
@@ -9,10 +8,9 @@ export const Route = createRootRoute({
 function RootComponent() {
   return (
     <React.Fragment>
-      <div className="p-8">
+      <p className="p-8">
         <Outlet />
-      </div>
-      <NavMenu />
+      </p>
     </React.Fragment>
   );
 }

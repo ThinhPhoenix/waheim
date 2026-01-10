@@ -1,3 +1,4 @@
+import { colors } from '@/helpers/constants/colors';
 import {
   CalendarOutlined,
   CheckOutlined,
@@ -20,7 +21,7 @@ import {
 import type { Rule } from 'antd/es/form';
 import type React from 'react';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { colors } from '@/helpers/constants/colors';
+import FancyButton from '../fancy-button';
 import { WheelPicker, WheelPickerWrapper } from '../wheel-picker';
 
 interface DateWheelPickerProps {
@@ -353,13 +354,13 @@ export default function FancyFormMobile({
         }
       };
       return (
-        <Button
+        <FancyButton
           key={field.key || index}
           {...field.props}
           onClick={field.onClick || field.onSubmit ? handleClick : undefined}
         >
           {field.text}
-        </Button>
+        </FancyButton>
       );
     }
 

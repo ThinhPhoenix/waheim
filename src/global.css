@@ -1,7 +1,27 @@
 @import 'tailwindcss';
 
 #root {
-  background-color: var(--color-primary-foreground);
+  color: var(--color-primary-text);
+}
+
+h1 {
+  @apply text-3xl font-bold mb-4;
+}
+
+h2 {
+  @apply text-2xl font-semibold mb-3;
+}
+
+h3 {
+  @apply text-xl font-medium mb-2;
+}
+
+h4 {
+  @apply text-lg font-medium mb-1;
+}
+
+h5 {
+  @apply text-base font-medium mb-1;
 }
 
 html {
