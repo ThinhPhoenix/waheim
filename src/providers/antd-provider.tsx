@@ -1,5 +1,5 @@
-import { ConfigProvider, theme } from 'antd';
 import { colors } from '@/helpers/constants/colors';
+import { ConfigProvider, theme } from 'antd';
 
 export default function AntdProvider({
   children,
@@ -17,6 +17,7 @@ export default function AntdProvider({
           colorPrimary: colors.primary,
         },
       }}
+      componentSize="large"
     >
       {children}
     </ConfigProvider>

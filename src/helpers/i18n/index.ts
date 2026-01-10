@@ -17,7 +17,7 @@ for (const lang in resources) {
 }
 
 i18n.use(initReactI18next).init({
-  fallbackLng: 'en-US',
+  fallbackLng: 'vi-VN',
   ns: namespaces,
   defaultNS: 'common',
   resources: resolved,
