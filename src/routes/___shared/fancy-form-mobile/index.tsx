@@ -23,6 +23,7 @@ import type React from 'react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import FancyButton from '../fancy-button';
 import { WheelPicker, WheelPickerWrapper } from '../wheel-picker';
+import './fancy-form-mobile.css';
 
 interface DateWheelPickerProps {
   value?: Date;
@@ -660,6 +661,8 @@ export default function FancyFormMobile({
         name={field.key}
         rules={rules}
         valuePropName={field.type === 'switch' ? 'checked' : 'value'}
+        className="fancy-form-item"
+        labelCol={{ style: { paddingBottom: '0' } }}
       >
         {inputComponent}
       </Form.Item>
@@ -673,7 +676,12 @@ export default function FancyFormMobile({
         onFinish={handleFinish}
         layout="vertical"
         className={className}
-        style={style}
+        style={
+          {
+            ...style,
+            '--ant-form-vertical-label-margin-bottom': '0',
+          } as React.CSSProperties
+        }
         {...props}
       >
         {renderFields.map((field, index) => renderField(field, index))}

@@ -1,0 +1,29 @@
+/* Override Ant Design vertical form label spacing */
+.ant-form-vertical .ant-form-item-label {
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.ant-form-vertical .ant-form-item-label > label {
+  margin-bottom: 0 !important;
+}
+
+/* More specific targeting */
+.fancy-form-item.ant-form-item .ant-form-item-label {
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.fancy-form-item.ant-form-item .ant-form-item-label > label {
+  margin-bottom: 0 !important;
+}
+
+/* Even more specific targeting */
+.ant-form-item.fancy-form-item .ant-form-item-label {
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.ant-form-item.fancy-form-item .ant-form-item-label > label {
+  margin-bottom: 0 !important;
+}
